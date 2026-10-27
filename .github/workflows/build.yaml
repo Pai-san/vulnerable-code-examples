@@ -15,6 +15,11 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
           set-safe-directory: false # Avoid temporary global Git config cleanup on the Windows self-hosted runner
+      - name: Prioritize Git Bash over WSL
+        shell: powershell
+        run: |
+          "C:\Program Files\Git\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - uses: SonarSource/sonarqube-scan-action@v5
         with:
           skipSignatureVerification: true # v8.1.0
